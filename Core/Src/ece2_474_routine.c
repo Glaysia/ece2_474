@@ -1,12 +1,52 @@
 /*
- * 인터럽트 실습 템플릿입니다. CubeMX 자동 생성 파일이 아닙니다.
- * 학생은 아래 네 함수의 '실습 코드 작성' 부분을 채웁니다.
+ * 초기화·폴링·인터럽트 실습 템플릿입니다. CubeMX 자동 생성 파일이 아닙니다.
+ * 학생은 아래 함수의 '실습 코드 작성' 부분을 채웁니다.
  * 아래쪽 HAL 콜백은 자동 생성된 인터럽트 처리 코드와 실습 함수를 연결합니다.
  * 인터럽트에서는 처리할 일을 기록하고 빠르게 돌아옵니다.
- * HAL_Delay, scanf, getchar처럼 기다리는 함수와 printf는 여기서 사용하지 않습니다.
+ * 인터럽트 함수 안에서는 HAL_Delay, scanf, getchar, printf를 사용하지 않습니다.
  */
 #include "ece2_474.h"
 #include "main.h"
+/* 주변장치 변수의 extern 선언은 ece2_474.h에 있습니다. */
+
+/* UART 인터럽트 수신 실습 때 필요한 버퍼의 주석을 해제합니다.
+ * 파일 범위에 두면 수신 완료 함수에서도 같은 버퍼를 사용할 수 있습니다.
+ */
+// static uint8_t usart2_rx_ece2;
+// static uint8_t usart3_rx_ece2;
+
+/* 주변장치 초기화가 끝난 뒤, 메인 루프에 들어가기 전에 한 번 호출됩니다. */
+void ece2_474_init(void)
+{
+    /* 필요한 기능만 주석을 해제합니다. 기본 핀·통신 설정은 이미 끝난 상태입니다.
+     * VS Code에서 해당 줄에 커서를 놓거나 여러 줄을 선택하고 Ctrl + /를 누르면
+     * 줄 주석(//)을 해제하거나 다시 설정할 수 있습니다.
+     */
+
+    /* TIM6: 100 ms마다 tim6_isr_p4()를 호출합니다. */
+    // HAL_TIM_Base_Start_IT(&htim6);
+
+    /* TIM3: PB4에서 1 kHz PWM을 출력합니다. 비교값 500은 50%입니다. */
+    // HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+    // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 500U);
+
+    /* USART2: PC에서 한 바이트를 받으면 usart2_isr_p6()를 호출합니다.
+     * 위의 usart2_rx_ece2 버퍼도 주석을 해제해야 합니다.
+     * 수신 완료 함수에서 HAL_UART_Receive_IT를 다시 호출해야 다음 입력도 받습니다.
+     * getchar·fgets·scanf로 같은 UART를 읽는 방식과 함께 사용하지 않습니다.
+     */
+    // HAL_UART_Receive_IT(&huart2, &usart2_rx_ece2, 1U);
+
+    /* USART3: FPGA에서 한 바이트를 받으면 usart3_isr_p5()를 호출합니다.
+     * 위의 usart3_rx_ece2 버퍼도 주석을 해제해야 합니다.
+     * UART는 한 번 수신한 뒤, 수신 완료 함수에서 다시 수신을 요청합니다.
+     */
+    // HAL_UART_Receive_IT(&huart3, &usart3_rx_ece2, 1U);
+
+    /* GPIO 입력 인터럽트는 이미 켜져 있어 별도 시작 호출이 필요 없습니다.
+     * SPI·I2C와 UART 송신도 별도 시작 없이 필요한 시점에 송수신 함수를 호출합니다.
+     */
+}
 
 /* 메인 루프에서 반복해서 호출됩니다. */
 void polling_routine(void)
@@ -49,14 +89,34 @@ static void usart3_isr_p5(void)
     /* 실습 코드 작성: FPGA 수신 버퍼를 처리하고 다음 수신을 요청합니다. */
 }
 
+/* PA0: 풀업 입력의 HIGH -> LOW 변화. 우선순위: 8. */
+static void gpio_in_pullup_isr_p8_ece2(void)
+{
+    /* 실습 코드 작성 */
+}
+
+/* PA1: 풀다운 입력의 LOW -> HIGH 변화. 우선순위: 9. */
+static void gpio_in_pulldown_isr_p9_ece2(void)
+{
+    /* 실습 코드 작성 */
+}
+
 /* 아래는 HAL 콜백과 실습 함수를 연결하는 코드입니다. */
 
 /* CubeMX의 EXTI 처리 코드에서 버튼 실습 함수로 연결합니다. */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-    if (GPIO_Pin == B1_Pin)
+    if (GPIO_Pin == BUTTON_ece2_Pin)
     {
         button_isr_p7();
+    }
+    else if (GPIO_Pin == GPIO_IN_PULLUP_ece2_Pin)
+    {
+        gpio_in_pullup_isr_p8_ece2();
+    }
+    else if (GPIO_Pin == GPIO_IN_PULLDOWN_ece2_Pin)
+    {
+        gpio_in_pulldown_isr_p9_ece2();
     }
 }
 

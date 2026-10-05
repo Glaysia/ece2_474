@@ -8,7 +8,6 @@
 #include "main.h"
 
 /* USART2 설정은 CubeMX가 main.c에 생성합니다. 여기서는 그 설정을 사용합니다. */
-extern UART_HandleTypeDef huart2;
 
 /* printf가 출력할 문자 한 개를 컴퓨터로 보냅니다.
  * 전송에 실패하면 EOF를 반환합니다.
