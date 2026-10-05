@@ -46,7 +46,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/ece2_474_stdio.c
-    Core/Src/ece2_474_isr.c
+    Core/Src/ece2_474_routine.c
 )
 
 # Add include paths

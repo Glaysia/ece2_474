@@ -3,5 +3,7 @@
 
 #include <stdio.h>
 
+void polling_routine(void);
+
 
 #endif /* __ECE2_474_H */

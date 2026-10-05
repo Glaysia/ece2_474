@@ -91,7 +91,7 @@
 | `stm32g4xx_hal_msp.c`, `stm32g4xx_it.c` | CubeMX 자동 생성 |
 | `syscalls.c`, `sysmem.c` | CubeMX 자동 생성 |
 | `Drivers/` | ST와 Arm이 제공한 기본 코드 |
-| `ece2_474_stdio.c`, `ece2_474_isr.c`, `ece2_474.h` | 별도로 작성한 실습용 코드 |
+| `ece2_474_stdio.c`, `ece2_474_routine.c`, `ece2_474.h` | 별도로 작성한 실습용 코드 |
 
 `printf`, `getchar`, `fgets`, `scanf`를 컴퓨터와 연결하는 코드는 [ece2_474_stdio.c](Core/Src/ece2_474_stdio.c)에 있다. 학생은 이 연결 코드를 그대로 사용하고 실습 동작을 작성하면 된다.
 
@@ -100,7 +100,7 @@
 ## 수정할 파일
 
 - [ece2_474_stdio.c](Core/Src/ece2_474_stdio.c): 표준 입출력 연결 코드
-- [ece2_474_isr.c](Core/Src/ece2_474_isr.c): 버튼·타이머·통신 콜백 작성
+- [ece2_474_routine.c](Core/Src/ece2_474_routine.c): 버튼·타이머·통신 콜백 작성
 - [ece2_474.h](Core/Inc/ece2_474.h): 함께 사용할 함수 선언
 - [main.c](Core/Src/main.c): 시작할 때 할 일과 반복할 일 작성
 
