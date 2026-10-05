@@ -4,6 +4,12 @@
       "path": "."
     }
   ],
+  "extensions": {
+    "recommendations": [
+      "STMicroelectronics.stm32-vscode-extension",
+      "ms-vscode.vscode-serial-monitor"
+    ]
+  },
   "settings": {
     "stm32cube-ide-clangd.path": "cube",
     "stm32cube-ide-clangd.arguments": [
