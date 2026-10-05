@@ -2,12 +2,12 @@
  * 표준 입출력 연결 코드입니다.
  * 이 파일은 CubeMX 자동 생성 파일이 아닙니다.
  * printf는 컴퓨터로 글자를 보내고, getchar·fgets·scanf는 컴퓨터에서 입력을 받습니다.
- * 통신에는 USART2와 보드의 ST-LINK USB 연결을 사용합니다. 속도는 9600입니다.
+ * 통신에는 UART2와 보드의 ST-LINK USB 연결을 사용합니다. 속도는 9600입니다.
  */
 #include "ece2_474.h"
 #include "main.h"
 
-/* USART2 설정은 CubeMX가 main.c에 생성합니다. 여기서는 그 설정을 사용합니다. */
+/* UART2 설정은 CubeMX가 main.c에 생성합니다. 여기서는 그 설정을 사용합니다. */
 
 /* printf가 출력할 문자 한 개를 컴퓨터로 보냅니다.
  * 전송에 실패하면 EOF를 반환합니다.
@@ -41,7 +41,7 @@ int __io_getchar(void)
  */
 int _read(int file, char *ptr, int len)
 {
-    /* 표준 입력을 모두 USART2로 받으므로 파일 번호는 사용하지 않습니다. */
+    /* 표준 입력을 모두 UART2로 받으므로 파일 번호는 사용하지 않습니다. */
     (void)file;
     if (len <= 0)
     {

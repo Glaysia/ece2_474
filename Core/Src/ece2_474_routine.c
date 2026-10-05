@@ -12,8 +12,8 @@
 /* UART 인터럽트 수신 실습 때 필요한 버퍼의 주석을 해제합니다.
  * 파일 범위에 두면 수신 완료 함수에서도 같은 버퍼를 사용할 수 있습니다.
  */
-// static uint8_t usart2_rx_ece2;
-// static uint8_t usart3_rx_ece2;
+// static uint8_t uart2_rx_ece2;
+// static uint8_t uart3_rx_ece2;
 
 /* 주변장치 초기화가 끝난 뒤, 메인 루프에 들어가기 전에 한 번 호출됩니다. */
 void ece2_474_init(void)
@@ -30,18 +30,18 @@ void ece2_474_init(void)
     // HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
     // __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 500U);
 
-    /* USART2: PC에서 한 바이트를 받으면 usart2_isr_p6()를 호출합니다.
-     * 위의 usart2_rx_ece2 버퍼도 주석을 해제해야 합니다.
+    /* UART2: PC에서 한 바이트를 받으면 uart2_isr_p6()를 호출합니다.
+     * 위의 uart2_rx_ece2 버퍼도 주석을 해제해야 합니다.
      * 수신 완료 함수에서 HAL_UART_Receive_IT를 다시 호출해야 다음 입력도 받습니다.
      * getchar·fgets·scanf로 같은 UART를 읽는 방식과 함께 사용하지 않습니다.
      */
-    // HAL_UART_Receive_IT(&huart2, &usart2_rx_ece2, 1U);
+    // HAL_UART_Receive_IT(&huart2, &uart2_rx_ece2, 1U);
 
-    /* USART3: FPGA에서 한 바이트를 받으면 usart3_isr_p5()를 호출합니다.
-     * 위의 usart3_rx_ece2 버퍼도 주석을 해제해야 합니다.
+    /* UART3: FPGA에서 한 바이트를 받으면 uart3_isr_p5()를 호출합니다.
+     * 위의 uart3_rx_ece2 버퍼도 주석을 해제해야 합니다.
      * UART는 한 번 수신한 뒤, 수신 완료 함수에서 다시 수신을 요청합니다.
      */
-    // HAL_UART_Receive_IT(&huart3, &usart3_rx_ece2, 1U);
+    // HAL_UART_Receive_IT(&huart3, &uart3_rx_ece2, 1U);
 
     /* GPIO 입력 인터럽트는 이미 켜져 있어 별도 시작 호출이 필요 없습니다.
      * SPI·I2C와 UART 송신도 별도 시작 없이 필요한 시점에 송수신 함수를 호출합니다.
@@ -70,21 +70,21 @@ static void tim6_isr_p4(void)
     /* 실습 코드 작성: 횟수를 세거나 메인 루프에서 처리할 표시를 남깁니다. */
 }
 
-/* 3. PC 통신 USART2의 요청한 수신이 완료되면 호출됩니다. 우선순위: 6.
+/* 3. PC 통신 UART2의 요청한 수신이 완료되면 호출됩니다. 우선순위: 6.
  * 먼저 수신 버퍼를 준비하고 HAL_UART_Receive_IT로 수신을 요청해야 합니다.
  * 다음 입력도 받으려면 처리 후 수신을 다시 요청합니다.
  * 현재 표준 입력은 기다리는 방식입니다. 같은 UART의 인터럽트 수신과 함께 쓰지 않습니다.
  */
-static void usart2_isr_p6(void)
+static void uart2_isr_p6(void)
 {
     /* 실습 코드 작성: PC 수신 버퍼를 처리하고 다음 수신을 요청합니다. */
 }
 
-/* 4. FPGA 통신 USART3의 요청한 수신이 완료되면 호출됩니다. 우선순위: 5.
+/* 4. FPGA 통신 UART3의 요청한 수신이 완료되면 호출됩니다. 우선순위: 5.
  * 먼저 수신 버퍼를 준비하고 HAL_UART_Receive_IT로 수신을 요청해야 합니다.
  * 다음 입력도 받으려면 처리 후 수신을 다시 요청합니다.
  */
-static void usart3_isr_p5(void)
+static void uart3_isr_p5(void)
 {
     /* 실습 코드 작성: FPGA 수신 버퍼를 처리하고 다음 수신을 요청합니다. */
 }
@@ -134,10 +134,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if (huart->Instance == USART2)
     {
-        usart2_isr_p6();
+        uart2_isr_p6();
     }
     else if (huart->Instance == USART3)
     {
-        usart3_isr_p5();
+        uart3_isr_p5();
     }
 }
